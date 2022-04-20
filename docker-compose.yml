@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    build: ./docker/httpd
+    container_name: app
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 8059:80
+    depends_on:
+      - mysql
+
+  mysql:
+    build: ./docker/mysql
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - 3359:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  db:

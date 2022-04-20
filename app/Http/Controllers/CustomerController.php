@@ -62,8 +62,8 @@ class CustomerController extends Controller
     public function show($customer)
     {
         //Hiển thị dữ liệu chi tiết của người dùng có id = $id
-        $index = Customer::where('id_customer', $customer)->first();
-        return new CustomerResource($index);
+        $show = Customer::where('id_customer', $customer)->first();
+        return new CustomerResource($show);
     }
 
     /**
@@ -86,15 +86,15 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $customer)
     {
-        // $validated = $request->validate([
-        //     'name_customer' => 'required',
-        //     'email_customer' => 'required',
-        //     'phone_customer' => 'required',
-        //     'address_customer' => 'required',
-        //     'city_customer' => 'required',                                                                                                          
-        // ]);
+        $validated = $request->validate([
+            'name_customer' => 'required',
+            'email_customer' => 'required',
+            'phone_customer' => 'required',
+            'address_customer' => 'required',
+            'city_customer' => 'required',                                                                                                          
+        ]);
         $update = Customer::find($customer);
-
+            
         $edit['name_customer'] = $request->name_customer;
         $edit['email_customer'] = $request->email_customer;
         $edit['phone_customer'] = $request->phone_customer;
@@ -118,7 +118,7 @@ class CustomerController extends Controller
         $destroy->delete();
         return new CustomerResource($destroy);
     }
-    
+
     public function search(Request $request){
         $keywords = $request->keyword;
         $search = Customer::where('name_customer','like','%'.$keywords.'%')->get();
